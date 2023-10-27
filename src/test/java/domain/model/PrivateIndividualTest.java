@@ -97,4 +97,23 @@ class PrivateIndividualTest {
             new Invoice(new Amount(1_210_00), consumptions)
         );
     }
+
+    @Test
+    void should_compute_invoice_for_gas() {
+        List<MonthlyConsumption> consumptions = List.of(
+            new MonthlyConsumption(10_000, EnergyType.GAS)
+        );
+        var privateIndividual = new PrivateIndividual(
+            new CustomerReference("EKW01234567"),
+            Civility.FEMALE,
+            "Bovary",
+            "Emma"
+        );
+
+        var invoice = privateIndividual.invoice(consumptions);
+
+        assertThat(invoice).isEqualTo(
+            new Invoice(new Amount(1_150_00), consumptions)
+        );
+    }
 }
