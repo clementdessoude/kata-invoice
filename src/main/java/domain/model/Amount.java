@@ -1,20 +1,20 @@
 package domain.model;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
-public record Amount(BigDecimal value) {
+public record Amount(BigInteger valueInCents) {
 
     public Amount {
-        if (value == null) {
-            throw new IllegalArgumentException("Amount value cannot be null");
+        if (valueInCents == null) {
+            throw new IllegalArgumentException("Amount valueInCents cannot be null");
         }
 
-        if (value.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Amount value cannot be negative");
+        if (valueInCents.compareTo(BigInteger.ZERO) < 0) {
+            throw new IllegalArgumentException("Amount valueInCents cannot be negative");
         }
     }
 
     public Amount(long value) {
-        this(new BigDecimal(value));
+        this(BigInteger.valueOf(value));
     }
 }
