@@ -3,7 +3,6 @@ package domain.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import org.junit.jupiter.api.Test;
 
@@ -34,5 +33,13 @@ class AmountTest {
         var amount = new Amount(1);
 
         assertThat(amount.valueInCents()).isEqualTo(BigInteger.ONE);
+    }
+
+    @Test
+    void should_add_amounts() {
+        var first = new Amount(1);
+        var second = new Amount(2221);
+
+        assertThat(first.add(second)).isEqualTo(new Amount(2222));
     }
 }

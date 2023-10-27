@@ -1,8 +1,11 @@
 package domain.model;
 
 import java.math.BigInteger;
+import java.util.function.BinaryOperator;
 
 public record Amount(BigInteger valueInCents) {
+
+    public static final Amount ZERO = new Amount(0);
 
     public Amount {
         if (valueInCents == null) {
@@ -14,7 +17,11 @@ public record Amount(BigInteger valueInCents) {
         }
     }
 
-    public Amount(long value) {
-        this(BigInteger.valueOf(value));
+    public Amount(long valueInCents) {
+        this(BigInteger.valueOf(valueInCents));
+    }
+
+    public Amount add(Amount amount) {
+        return new Amount(amount.valueInCents.add(this.valueInCents));
     }
 }

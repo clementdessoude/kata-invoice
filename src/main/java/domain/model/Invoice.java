@@ -1,6 +1,7 @@
 package domain.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public record Invoice(
     Amount amount,
@@ -16,7 +17,7 @@ public record Invoice(
             throw new IllegalArgumentException("Monthly consumptions cannot be null");
         }
 
-        if (monthlyConsumptions.contains(null)) {
+        if (monthlyConsumptions.stream().anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("Monthly consumptions cannot contains null consumption");
         }
     }

@@ -3,6 +3,7 @@ package domain.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
@@ -76,5 +77,24 @@ class PrivateIndividualTest {
         assertThat(privateIndividual.reference()).isEqualTo(new CustomerReference("EKW01234567"));
         assertThat(privateIndividual.lastName()).isEqualTo("Bovary");
         assertThat(privateIndividual.firstName()).isEqualTo("Emma");
+    }
+
+    @Test
+    void should_compute_invoice_for_electricity() {
+        List<MonthlyConsumption> consumptions = List.of(
+            new MonthlyConsumption(10_000, EnergyType.ELECTRICITY)
+        );
+        var privateIndividual = new PrivateIndividual(
+            new CustomerReference("EKW01234567"),
+            Civility.FEMALE,
+            "Bovary",
+            "Emma"
+        );
+
+        var invoice = privateIndividual.invoice(consumptions);
+
+        assertThat(invoice).isEqualTo(
+            new Invoice(new Amount(1_210_00), consumptions)
+        );
     }
 }

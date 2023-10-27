@@ -1,6 +1,7 @@
 package domain.model;
 
-import org.springframework.util.StringUtils;
+import java.math.BigInteger;
+import java.util.List;
 
 public record PrivateIndividual(
     CustomerReference reference,
@@ -11,7 +12,8 @@ public record PrivateIndividual(
 
     public PrivateIndividual {
         if (reference == null) {
-            throw new IllegalArgumentException("Customer Reference should be provided");
+            throw new IllegalArgumentException(
+                "Customer Reference should be provided");
         }
 
         if (civility == null) {
@@ -25,5 +27,28 @@ public record PrivateIndividual(
         if (firstName == null || firstName.isBlank()) {
             throw new IllegalArgumentException("First name should be provided");
         }
+    }
+
+    @Override
+    public Invoice invoice(List<MonthlyConsumption> monthlyConsumptions) {
+        var invoiceAmount = monthlyConsumptions
+            .stream()
+            .map(PrivateIndividual::price)
+            .reduce( Amount.ZERO, Amount::add);
+
+        return new Invoice(invoiceAmount, monthlyConsumptions);
+    }
+
+    private static Amount price(MonthlyConsumption monthlyConsumption) {
+        var pricePerKwhInTensOfCents = switch (monthlyConsumption.energyType()) {
+            case GAS -> 115;
+            case ELECTRICITY -> 121;
+        };
+
+        var amountValue = BigInteger.valueOf(monthlyConsumption.consumption())
+            .multiply(BigInteger.valueOf(pricePerKwhInTensOfCents))
+            .divide(BigInteger.TEN);
+
+        return new Amount(amountValue);
     }
 }
