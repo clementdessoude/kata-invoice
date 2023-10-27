@@ -1,7 +1,4 @@
-package domain.model;
-
-import java.math.BigInteger;
-import java.util.List;
+package com.ekwateur.invoice.domain;
 
 public record PrivateIndividual(
     CustomerReference reference,

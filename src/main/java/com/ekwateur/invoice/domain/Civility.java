@@ -1,4 +1,4 @@
-package domain.model;
+package com.ekwateur.invoice.domain;
 
 public enum Civility {
     MALE,

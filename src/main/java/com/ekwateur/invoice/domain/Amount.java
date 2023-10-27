@@ -1,7 +1,6 @@
-package domain.model;
+package com.ekwateur.invoice.domain;
 
 import java.math.BigInteger;
-import java.util.function.BinaryOperator;
 
 public record Amount(BigInteger valueInCents) {
 

@@ -1,4 +1,4 @@
-package domain.model;
+package com.ekwateur.invoice.domain;
 
 import org.springframework.util.StreamUtils;
 

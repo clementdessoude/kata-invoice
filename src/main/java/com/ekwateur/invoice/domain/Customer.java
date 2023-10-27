@@ -1,4 +1,4 @@
-package domain.model;
+package com.ekwateur.invoice.domain;
 
 import java.math.BigInteger;
 import java.util.List;
