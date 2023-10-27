@@ -30,25 +30,12 @@ public record PrivateIndividual(
     }
 
     @Override
-    public Invoice invoice(List<MonthlyConsumption> monthlyConsumptions) {
-        var invoiceAmount = monthlyConsumptions
-            .stream()
-            .map(PrivateIndividual::price)
-            .reduce( Amount.ZERO, Amount::add);
-
-        return new Invoice(invoiceAmount, monthlyConsumptions);
+    public int gasPriceInTensOfCents() {
+        return 115;
     }
 
-    private static Amount price(MonthlyConsumption monthlyConsumption) {
-        var pricePerKwhInTensOfCents = switch (monthlyConsumption.energyType()) {
-            case GAS -> 115;
-            case ELECTRICITY -> 121;
-        };
-
-        var amountValue = BigInteger.valueOf(monthlyConsumption.consumption())
-            .multiply(BigInteger.valueOf(pricePerKwhInTensOfCents))
-            .divide(BigInteger.TEN);
-
-        return new Amount(amountValue);
+    @Override
+    public int electricityPriceInTensOfCents() {
+        return 121;
     }
 }

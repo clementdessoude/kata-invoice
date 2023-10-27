@@ -24,4 +24,8 @@ public record Amount(BigInteger valueInCents) {
     public Amount add(Amount amount) {
         return new Amount(amount.valueInCents.add(this.valueInCents));
     }
+
+    public boolean isStriclyBelow(Amount other) {
+        return this.valueInCents.compareTo(other.valueInCents) < 0;
+    }
 }
