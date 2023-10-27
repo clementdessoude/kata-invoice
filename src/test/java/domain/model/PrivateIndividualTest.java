@@ -116,4 +116,44 @@ class PrivateIndividualTest {
             new Invoice(new Amount(1_150_00), consumptions)
         );
     }
+
+    @Test
+    void should_sum_invoice_price_if_several_consumptions() {
+        List<MonthlyConsumption> consumptions = List.of(
+            new MonthlyConsumption(15_000, EnergyType.GAS),
+            new MonthlyConsumption(5_000, EnergyType.ELECTRICITY)
+        );
+        var privateIndividual = new PrivateIndividual(
+            new CustomerReference("EKW01234567"),
+            Civility.FEMALE,
+            "Bovary",
+            "Emma"
+        );
+
+        var invoice = privateIndividual.invoice(consumptions);
+
+        assertThat(invoice).isEqualTo(
+            new Invoice(new Amount(2_330_00), consumptions)
+        );
+    }
+
+    @Test
+    void should_round_amount_for_each_consumption_to_floor() {
+        List<MonthlyConsumption> consumptions = List.of(
+            new MonthlyConsumption(1, EnergyType.GAS),
+            new MonthlyConsumption(2, EnergyType.ELECTRICITY)
+        );
+        var privateIndividual = new PrivateIndividual(
+            new CustomerReference("EKW01234567"),
+            Civility.FEMALE,
+            "Bovary",
+            "Emma"
+        );
+
+        var invoice = privateIndividual.invoice(consumptions);
+
+        assertThat(invoice).isEqualTo(
+            new Invoice(new Amount(35), consumptions)
+        );
+    }
 }
